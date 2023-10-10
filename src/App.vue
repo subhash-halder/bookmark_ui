@@ -1,17 +1,25 @@
 <template>
-  <a-card
-    style="width: 100%"
-    :tab-list="tabListNoTitle"
-    :active-tab-key="noTitleKey"
-    @tabChange="(key) => onTabChange(key, 'noTitleKey')"
+  <a-config-provider
+    :theme="{
+      algorithm: theme.darkAlgorithm,
+    }"
   >
-    <p v-if="noTitleKey === 'article'">article content</p>
-    <p v-else-if="noTitleKey === 'app'">app content</p>
-    <p v-else>project content</p>
-  </a-card>
+    <a-card
+      style="width: 100%"
+      :tab-list="tabListNoTitle"
+      :active-tab-key="noTitleKey"
+      @tabChange="(key) => onTabChange(key, 'noTitleKey')"
+    >
+      <p v-if="noTitleKey === 'article'">article content</p>
+      <p v-else-if="noTitleKey === 'app'">app content</p>
+      <p v-else>project content</p>
+    </a-card>
+  </a-config-provider>
 </template>
 <script lang="ts" setup>
+import { theme } from 'ant-design-vue';
 import { ref } from 'vue';
+
 const tabListNoTitle = [
   {
     key: 'article',

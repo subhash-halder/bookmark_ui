@@ -8,5 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ACard: typeof import('ant-design-vue/es')['Card']
+    AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
   }
 }

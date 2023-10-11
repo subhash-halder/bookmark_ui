@@ -6,42 +6,59 @@
   >
     <a-card
       style="width: 100%"
-      :tab-list="tabListNoTitle"
-      :active-tab-key="noTitleKey"
-      @tabChange="(key) => onTabChange(key, 'noTitleKey')"
+      :tab-list="tabList"
+      :active-tab-key="tabSelected"
+      @tabChange="(key) => onTabChange(key)"
     >
-      <p v-if="noTitleKey === 'article'">article content</p>
-      <p v-else-if="noTitleKey === 'app'">app content</p>
-      <p v-else>project content</p>
+      <p v-if="tabSelected === 'bookmarks'">
+        <BookmarkView
+          :bookmarks="bookmarks"
+          :bookmark-selected-tab-id="bookmarkSelectedTabId"
+          :on-bookmark-tab-selection-change="onBookmarkTabSelectionChange"
+        />
+      </p>
     </a-card>
   </a-config-provider>
 </template>
+
 <script lang="ts" setup>
 import { theme } from 'ant-design-vue';
-import { ref } from 'vue';
+import { ref, onBeforeMount } from 'vue';
+import type { Bookmark } from './interfaces';
+import BookmarkView from './components/BookmarkView.vue';
 
-const tabListNoTitle = [
+const bookmarks = ref<Bookmark[]>([]);
+const bookmarkSelectedTabId = ref('');
+
+onBeforeMount(() => {
+  void chrome.runtime.sendMessage({ type: 'getState' });
+});
+
+function onBookmarkTabSelectionChange(tabId: string): void {
+  void chrome.runtime.sendMessage({ type: 'setBookmarkTabSelectionId', tabId });
+}
+
+chrome.runtime.onMessage.addListener((message) => {
+  switch (message.type) {
+    case 'newState':
+      bookmarks.value = message.state.bookmarks;
+      bookmarkSelectedTabId.value = message.bookmarkSelectedTabId;
+      break;
+    case 'newBookmarkTabSelectionId':
+      bookmarkSelectedTabId.value = message.tabId;
+      break;
+  }
+});
+
+const tabList = [
   {
-    key: 'article',
-    tab: 'article',
-  },
-  {
-    key: 'app',
-    tab: 'app',
-  },
-  {
-    key: 'project',
-    tab: 'project',
+    key: 'bookmarks',
+    tab: 'Bookmarks',
   },
 ];
-const key = ref('tab1');
-const noTitleKey = ref('app');
+const tabSelected = ref('bookmarks');
 
-const onTabChange = (value: string, type: string): void => {
-  if (type === 'key') {
-    key.value = value;
-  } else if (type === 'noTitleKey') {
-    noTitleKey.value = value;
-  }
+const onTabChange = (value: string): void => {
+  tabSelected.value = value;
 };
 </script>

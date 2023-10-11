@@ -23,7 +23,7 @@
         "<all_urls>"
       ],
       "js": [
-        "content.js"
+        "main.js"
       ]
     }
   ],

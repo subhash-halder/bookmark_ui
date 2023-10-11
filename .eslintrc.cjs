@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['standard-with-typescript', 'plugin:vue/vue3-essential'],
+  extends: ['standard-with-typescript', 'plugin:vue/vue3-essential', 'prettier'],
   overrides: [
     {
       env: {
@@ -24,11 +24,16 @@ module.exports = {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     extraFileExtensions: ['.vue'],
   },
-  plugins: ['vue'],
+  plugins: ['vue', 'prettier'],
   rules: {
-    semi: 'off',
-    '@typescript-eslint/semi': ['error', 'always'],
-    'comma-dangle': 'off',
-    '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
+    "prettier/prettier": 2,
+    "quotes": "off",
+    "@typescript-eslint/quotes": ["error", "single"],
+    // semi: 'off',
+    // '@typescript-eslint/semi': ['error', 'always'],
+    // 'comma-dangle': 'off',
+    // '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
+    // 'space-before-function-paren': 'off',
+    // '@typescript-eslint/space-before-function-paren': 'off',
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <a-card
-    v-if="bookmark.children?.length > 0"
+    v-if="bookmark.children && bookmark.children.length > 0"
     :title="bookmark.title"
     :bordered="false"
   >

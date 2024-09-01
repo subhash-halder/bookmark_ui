@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masonry Grid with Tabs and Tokyonight Theme</title>
+    <style>
+        /* Tokyonight Theme Colors */
+        :root {
+            --background-color: #1a1b26;
+            --card-background: #2e3440;
+            --header-background: #24283b;
+            --text-color: #c0caf5;
+            --header-color: #7aa2f7;
+            --tab-background: #3b4261;
+            --tab-active-background: #2ac3de;
+            --tab-active-color: #1a1b26;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: var(--tab-background);
+            padding: 10px;
+            border-bottom: 1px solid var(--header-background);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: var(--text-color);
+            background-color: var(--tab-background);
+            border-radius: 5px;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+
+        .tab.active {
+            background-color: var(--tab-active-background);
+            color: var(--tab-active-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Grid Container */
+        .card-container {
+            column-count: 6;
+            column-gap: 10px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            break-inside: avoid;
+            overflow: hidden;
+            color: var(--text-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
+            background-color: var(--header-background);
+            padding: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--header-color);
+        }
+
+        .card-body {
+            padding: 20px;
+            font-size: 1em;
+        }
+
+        /* Responsive Columns */
+        @media (max-width: 2400px) {
+            .card-container {
+                column-count: 5;
+            }
+        }
+
+        @media (max-width: 2200px) {
+            .card-container {
+                column-count: 4;
+            }
+        }
+
+        @media (max-width: 1800px) {
+            .card-container {
+                column-count: 4;
+            }
+        }
+
+        @media (max-width: 1600px) {
+            .card-container {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .card-container {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .card-container {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs">
+        <div class="tab active" data-tab="tab1">Tab 1</div>
+        <div class="tab" data-tab="tab2">Tab 2</div>
+        <div class="tab" data-tab="tab3">Tab 3</div>
+    </div>
+
+    <!-- Tab Content -->
+    <div id="tab1" class="tab-content active">
+        <div class="card-container">
+            <div class="card" style="height: 150px;">
+                <div class="card-header">Card 1 Header</div>
+                <div class="card-body">This is the body content for Card 1.</div>
+            </div>
+            <div class="card" style="height: 250px;">
+                <div class="card-header">Card 2 Header</div>
+                <div class="card-body">This is the body content for Card 2.</div>
+            </div>
+            <div class="card" style="height: 100px;">
+                <div class="card-header">Card 3 Header</div>
+                <div class="card-body">This is the body content for Card 3.</div>
+            </div>
+            <div class="card" style="height: 300px;">
+                <div class="card-header">Card 4 Header</div>
+                <div class="card-body">This is the body content for Card 4.</div>
+            </div>
+            <div class="card" style="height: 180px;">
+                <div class="card-header">Card 5 Header</div>
+                <div class="card-body">This is the body content for Card 5.</div>
+            </div>
+            <div class="card" style="height: 220px;">
+                <div class="card-header">Card 6 Header</div>
+                <div class="card-body">This is the body content for Card 6.</div>
+            </div>
+            <div class="card" style="height: 150px;">
+                <div class="card-header">Card 7 Header</div>
+                <div class="card-body">This is the body content for Card 7.</div>
+            </div>
+            <div class="card" style="height: 250px;">
+                <div class="card-header">Card 8 Header</div>
+                <div class="card-body">This is the body content for Card 8.</div>
+            </div>
+            <div class="card" style="height: 100px;">
+                <div class="card-header">Card 9 Header</div>
+                <div class="card-body">This is the body content for Card 9.</div>
+            </div>
+            <div class="card" style="height: 300px;">
+                <div class="card-header">Card 10 Header</div>
+                <div class="card-body">This is the body content for Card 10.</div>
+            </div>
+            <div class="card" style="height: 180px;">
+                <div class="card-header">Card 11 Header</div>
+                <div class="card-body">This is the body content for Card 11.</div>
+            </div>
+            <div class="card" style="height: 220px;">
+                <div class="card-header">Card 12 Header</div>
+                <div class="card-body">This is the body content for Card 12.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <div class="card-container">
+            <div class="card" style="height: 180px;">
+                <div class="card-header">Card A Header</div>
+                <div class="card-body">This is the body content for Card A.</div>
+            </div>
+            <div class="card" style="height: 220px;">
+                <div class="card-header">Card B Header</div>
+                <div class="card-body">This is the body content for Card B.</div>
+            </div>
+            <div class="card" style="height: 120px;">
+                <div class="card-header">Card C Header</div>
+                <div class="card-body">This is the body content for Card C.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <div class="card-container">
+            <div class="card" style="height: 150px;">
+                <div class="card-header">Card X Header</div>
+                <div class="card-body">This is the body content for Card X.</div>
+            </div>
+            <div class="card" style="height: 300px;">
+                <div class="card-header">Card Y Header</div>
+                <div class="card-body">This is the body content for Card Y.</div>
+            </div>
+            <div class="card" style="height: 200px;">
+                <div class="card-header">Card Z Header</div>
+                <div class="card-body">This is the body content for Card Z.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching logic
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

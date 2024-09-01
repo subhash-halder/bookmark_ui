@@ -1,33 +1,56 @@
 <template>
-  <a-card
-    style="width: 100%"
-    :tab-list="tabList"
-    :active-tab-key="bookmarkSelectedTabId"
-    @tabChange="(key) => onBookmarkTabSelectionChange(key)"
-  >
-    <div style="background-color: #2b2b2b; padding: 20px">
-      <Test />
-      <p v-if="childrens.length > 0">
-        <a-list
-          :grid="{ gutter: 2, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 4 }"
-          :data-source="childrens"
-        >
-          <template #renderItem="{ item }">
-            <a-list-item>
-              <LinkCard :bookmark="item" />
-            </a-list-item>
-          </template>
-        </a-list>
-      </p>
+  <div>
+    <div class="tabs">
+      <div
+        v-for="tab in tabList"
+        :key="tab.key"
+        :class="{ tab: true, active: tab.key === props.bookmarkSelectedTabId }"
+        @click="
+          () => {
+            console.log(tab);
+            onBookmarkTabSelectionChange(tab.key);
+          }
+        "
+      >
+        {{ tab.tab }}
+      </div>
     </div>
-  </a-card>
+
+    <div class="tab-content active">
+      <div class="card-container">
+        <div v-for="children in childrens" :key="children.id">
+          <LinkCard :bookmark="children" />
+        </div>
+      </div>
+    </div>
+
+    <!-- <div -->
+    <!--   :tab-list="tabList" -->
+    <!--   :active-tab-key="bookmarkSelectedTabId" -->
+    <!--   @tabChange="(key: string) => onBookmarkTabSelectionChange(key)" -->
+    <!-- > -->
+    <!--   <div style="background-color: #2b2b2b; padding: 20px"> -->
+    <!--     <p v-if="childrens.length > 0"> -->
+    <!--       <a-list -->
+    <!--         :grid="{ gutter: 2, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 4 }" -->
+    <!--         :data-source="childrens" -->
+    <!--       > -->
+    <!--         <template #renderItem="{ item }"> -->
+    <!--           <a-list-item> -->
+    <!--             <LinkCard :bookmark="item" /> -->
+    <!--           </a-list-item> -->
+    <!--         </template> -->
+    <!--       </a-list> -->
+    <!--     </p> -->
+    <!--   </div> -->
+    <!-- </div> -->
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import type { Bookmark } from '../interfaces';
 import LinkCard from './LinkCard.vue';
-import { h } from 'vue';
 
 const props = withDefaults(
   defineProps<{
@@ -49,9 +72,6 @@ const tabList = ref(
 );
 
 const childrens = ref<Bookmark[]>([]);
-
-const Test = h('div', 'hello');
-
 watch(
   () => props.bookmarkSelectedTabId,
   (value) => {

@@ -6,7 +6,8 @@
   "permissions": [
     "tabs",
     "tabGroups",
-    "bookmarks"
+    "bookmarks",
+    "storage"
   ],
   "chrome_url_overrides": {
     "newtab": "index.html"

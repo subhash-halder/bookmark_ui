@@ -7,6 +7,7 @@ export interface Bookmark {
   parentId?: string;
 }
 
-export interface State {
+export interface IState {
   bookmarks: Bookmark[];
+  selectedBookmarkTabId?: string;
 }

@@ -1,9 +1,26 @@
 import { v4 as uuidv4 } from 'uuid';
-import type { Bookmark, State } from './interfaces';
+import type { Bookmark, IState } from './interfaces';
 
-async function getState(): Promise<State> {
+let bookmarkSelectedTabIdLocal: string | undefined;
+async function getBookmarkSelectedTabId(): Promise<string | undefined> {
+  if (bookmarkSelectedTabIdLocal === undefined) {
+    const selectedTab = (await chrome.storage.local.get(
+      'bookmarkSelectedTabId'
+    )) as unknown as Record<string, string>;
+    bookmarkSelectedTabIdLocal = selectedTab.bookmarkSelectedTabId ?? '0';
+  }
+  return bookmarkSelectedTabIdLocal;
+}
+async function setBookmarkSelectedTabId(tabId: string): Promise<void> {
+  bookmarkSelectedTabIdLocal = tabId;
+  await chrome.storage.local.set({ bookmarkSelectedTabId: tabId });
+}
+async function getState(): Promise<IState> {
+  const bookmarks = await getBookmarks();
+  const selectedBookmarkTabId = await getBookmarkSelectedTabId();
   return {
-    bookmarks: await getBookmarks(),
+    bookmarks,
+    selectedBookmarkTabId,
   };
 }
 
@@ -33,10 +50,11 @@ async function getBookmarks(): Promise<Bookmark[]> {
 
 async function sendState(): Promise<void> {
   const state = await getState();
+  const bookmarkSelectedTabId = await getBookmarkSelectedTabId();
   await chrome.runtime.sendMessage({
     type: 'newState',
     state,
-    bookmarkSelectedTabId: state.bookmarks[0]?.id,
+    bookmarkSelectedTabId,
   });
 }
 
@@ -46,11 +64,14 @@ chrome.runtime.onMessage.addListener((message) => {
       case 'getState':
         await sendState();
         break;
-      case 'setBookmarkTabSelectionId':
+      case 'setBookmarkTabSelectionId': {
+        await setBookmarkSelectedTabId(message.tabId);
+        const tabId = await getBookmarkSelectedTabId();
         await chrome.runtime.sendMessage({
           type: 'newBookmarkTabSelectionId',
-          tabId: message.tabId,
+          tabId,
         });
+      }
     }
   })(message);
 });

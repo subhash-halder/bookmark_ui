@@ -1,19 +1,27 @@
 <template>
   <div>
-    <div class="tabs">
-      <div
-        v-for="tab in tabList"
-        :key="tab.key"
-        :class="{ tab: true, active: tab.key === props.bookmarkSelectedTabId }"
-        @click="
-          () => {
-            console.log(tab);
-            onBookmarkTabSelectionChange(tab.key);
-          }
-        "
-      >
-        {{ tab.tab }}
+    <div class="main-header">
+      <div class="logo">
+        <img class="logo-img" src="/icons/icon48.png">
+        <div class="logo-text">Bookmark Buddy</div>
       </div>
+      <div class="tabs">
+        <div v-for="tab in tabList" :key="tab.key" :class="{ tab: true, active: tab.key === props.bookmarkSelectedTabId }"
+          @click="
+            () => {
+              console.log(tab);
+              onBookmarkTabSelectionChange(tab.key);
+            }
+          ">
+          {{ tab.tab }}
+        </div>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." />
+      </div>
+
+      <button @click="toggle_theme()" class="theme-toggle" id="themeToggle">🌙</button>
+
     </div>
 
     <div class="tab-content active">
@@ -51,6 +59,16 @@
 import { ref, watch } from 'vue';
 import type { Bookmark } from '../interfaces';
 import LinkCard from './LinkCard.vue';
+
+
+function toggle_theme(): void {
+  const themeToggle = document.getElementById('themeToggle') as HTMLElement;
+  document.body.classList.toggle('day-theme');
+  themeToggle.textContent = document.body.classList.contains('day-theme')
+    ? '☀️'
+    : '🌙';
+}
+
 
 const props = withDefaults(
   defineProps<{
